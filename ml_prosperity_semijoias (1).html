@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Prosperity | Semijoias — ✨ ilumine-se</title>
+    
+    <!-- Google Fonts: Cormorant Garamond & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ivory: '#FAF8F5',
+                        champagne: {
+                            DEFAULT: '#C5A059',
+                            dark: '#9F7C38',
+                            light: '#E8D8B5',
+                            soft: '#F4EDE0'
+                        },
+                        charcoal: '#141414',
+                        muted: '#6B665F',
+                        whatsapp: '#25D366'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .product-card:hover .product-img {
+            transform: scale(1.06);
+        }
+        .product-card:hover .quick-actions {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .thin-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .thin-scroll::-webkit-scrollbar-thumb {
+            background-color: #DFD5C3;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-white text-charcoal font-sans antialiased selection:bg-champagne/25 selection:text-charcoal">
+
+    <!-- ==================== 1. TOP BAR ROTATIVA ==================== -->
+    <div class="bg-charcoal text-white text-[10px] sm:text-[11px] py-2.5 px-4 tracking-[0.14em] uppercase font-medium">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-2">
+            <button type="button" onclick="prevAnnouncement()" aria-label="Anterior" class="text-white/60 hover:text-white px-1 cursor-pointer">
+                <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+            </button>
+            <p id="announcement-text" class="text-center truncate">
+                ENVIO PARA TODO O BRASIL ✈️ • BANHO DE 20 MILÉSIMOS DE OURO ✨
+            </p>
+            <button type="button" onclick="nextAnnouncement()" aria-label="Próximo" class="text-white/60 hover:text-white px-1 cursor-pointer">
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== 2. HEADER PRINCIPAL (BUSCA, CONECTE-SE, FAVORITOS, SACOLA) ==================== -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            
+            <!-- Menu Mobile + Busca Mobile -->
+            <div class="flex items-center gap-2 lg:hidden">
+                <button type="button" id="mobile-menu-btn" aria-label="Abrir Menu" class="p-2 text-charcoal hover:text-champagne-dark cursor-pointer">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+                <button type="button" onclick="toggleMobileSearch()" aria-label="Buscar" class="p-2 text-charcoal hover:text-champagne-dark cursor-pointer">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Logo ML Prosperity -->
+            <a href="#inicio" class="flex items-center gap-3 group shrink-0">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-ivory border border-champagne/60 flex flex-col items-center justify-center group-hover:border-champagne transition-colors">
+                    <span class="font-serif font-bold text-lg sm:text-xl text-charcoal leading-none tracking-tighter">ML</span>
+                    <span class="text-[5px] uppercase tracking-[0.24em] text-champagne-dark font-bold mt-0.5">PROSPERITY</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-serif text-xl sm:text-2xl font-bold tracking-[0.08em] text-charcoal leading-none">ML PROSPERITY</span>
+                    <span class="text-[9px] sm:text-[10px] uppercase tracking-[0.26em] text-champagne-dark font-semibold mt-1">Semijoias</span>
+                </div>
+            </a>
+
+            <!-- Barra de Busca Desktop (Estilo Ora Semijoias) -->
+            <div class="hidden lg:flex flex-1 max-w-md mx-6">
+                <div class="relative w-full">
+                    <input 
+                        type="text" 
+                        id="desktop-search-input"
+                        oninput="handleSearch(this.value)"
+                        placeholder="O que você está procurando?" 
+                        class="w-full pl-4 pr-10 py-2.5 bg-ivory border border-neutral-200 rounded-full text-xs text-charcoal placeholder:text-muted focus:outline-none focus:border-champagne transition-colors"
+                    >
+                    <i data-lucide="search" class="w-4 h-4 text-muted absolute right-3.5 top-1/2 -translate-y-1/2"></i>
+                </div>
+            </div>
+
+            <!-- Ações Direita: Conecte-se / Minha Conta, Favoritos, Sacola -->
+            <div class="flex items-center gap-2 sm:gap-5">
+                
+                <!-- Botão Conecte-se / Usuário Logado -->
+                <button 
+                    type="button" 
+                    onclick="handleAccountButtonClick()" 
+                    class="flex items-center gap-2 text-left py-1.5 px-2.5 rounded-full hover:bg-ivory transition-colors cursor-pointer group"
+                    title="Acessar ou Criar Conta"
+                >
+                    <div class="w-8 h-8 rounded-full bg-ivory border border-neutral-200 group-hover:border-champagne flex items-center justify-center text-charcoal">
+                        <i data-lucide="user" class="w-4 h-4"></i>
+                    </div>
+                    <div class="hidden sm:flex flex-col">
+                        <span id="header-user-greeting" class="text-[10px] text-muted leading-none">Bem-vinda!</span>
+                        <span id="header-user-label" class="text-xs font-bold text-charcoal group-hover:text-champagne-dark mt-0.5">Conecte-se</span>
+                    </div>
+                </button>
+
+                <!-- Favoritos -->
+                <button type="button" onclick="toggleWishlistFilter()" aria-label="Meus Favoritos" class="relative p-2 text-charcoal hover:text-champagne-dark transition-colors cursor-pointer" title="Favoritos">
+                    <i data-lucide="heart" class="w-5 h-5"></i>
+                    <span id="wishlist-badge" class="hidden absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-champagne text-white text-[9px] font-bold flex items-center justify-center">0</span>
+                </button>
+
+                <!-- Sacola de Compras -->
+                <button type="button" onclick="toggleCartDrawer()" aria-label="Minha Sacola" class="relative p-2 text-charcoal hover:text-champagne-dark transition-colors cursor-pointer" title="Minha Sacola">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    <span id="cart-badge" class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-charcoal text-white text-[10px] font-bold flex items-center justify-center">0</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Barra de Categorias Desktop -->
+        <nav class="hidden lg:block border-t border-neutral-100 bg-white">
+            <div class="max-w-7xl mx-auto px-8 h-11 flex items-center justify-center gap-8 text-[11px] uppercase tracking-[0.18em] font-semibold text-charcoal">
+                <a href="#vitrine" onclick="filterProducts('todos')" class="hover:text-champagne-dark transition-colors">Novidades</a>
+                <a href="#vitrine" onclick="filterProducts('colares')" class="hover:text-champagne-dark transition-colors">Colares</a>
+                <a href="#vitrine" onclick="filterProducts('conjuntos')" class="hover:text-champagne-dark transition-colors">Conjuntos</a>
+                <a href="#vitrine" onclick="filterProducts('pulseiras')" class="hover:text-champagne-dark transition-colors">Pulseiras</a>
+                <a href="#vitrine" onclick="filterProducts('brincos')" class="hover:text-champagne-dark transition-colors">Brincos</a>
+                <a href="#politicas" class="text-champagne-dark hover:text-charcoal transition-colors">Políticas e Normas</a>
+                <a href="#contato" class="hover:text-champagne-dark transition-colors">Contato</a>
+            </div>
+        </nav>
+
+        <!-- Busca Mobile Expansível -->
+        <div id="mobile-search-panel" class="hidden lg:hidden bg-ivory border-t border-neutral-200 px-4 py-3">
+            <div class="relative">
+                <input 
+                    type="text" 
+                    id="mobile-search-input"
+                    oninput="handleSearch(this.value)"
+                    placeholder="O que você está procurando?" 
+                    class="w-full pl-4 pr-10 py-2.5 bg-white border border-neutral-300 rounded-full text-xs text-charcoal focus:outline-none focus:border-charcoal"
+                >
+                <button type="button" onclick="toggleMobileSearch()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menu Mobile Gaveta -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-neutral-200 px-5 py-4 space-y-2.5 shadow-xl">
+            <button type="button" onclick="closeMobileMenu(); handleAccountButtonClick()" class="w-full flex items-center justify-between py-2.5 px-3 bg-ivory rounded-xl text-xs font-bold text-charcoal">
+                <span id="mobile-user-text">Conecte-se ou Crie sua Conta</span>
+                <i data-lucide="user" class="w-4 h-4 text-champagne-dark"></i>
+            </button>
+            <a href="#vitrine" onclick="filterProducts('todos'); closeMobileMenu()" class="block py-2 text-xs uppercase tracking-widest font-semibold text-charcoal border-b border-neutral-100">Novidades</a>
+            <a href="#vitrine" onclick="filterProducts('colares'); closeMobileMenu()" class="block py-2 text-xs uppercase tracking-widest font-semibold text-charcoal border-b border-neutral-100">Colares</a>
+            <a href="#vitrine" onclick="filterProducts('conjuntos'); closeMobileMenu()" class="block py-2 text-xs uppercase tracking-widest font-semibold text-charcoal border-b border-neutral-100">Conjuntos</a>
+            <a href="#vitrine" onclick="filterProducts('pulseiras'); closeMobileMenu()" class="block py-2 text-xs uppercase tracking-widest font-semibold text-charcoal border-b border-neutral-100">Pulseiras</a>
+            <a href="#vitrine" onclick="filterProducts('brincos'); closeMobileMenu()" class="block py-2 text-xs uppercase tracking-widest font-semibold text-charcoal border-b border-neutral-100">Brincos</a>
+            <a href="#politicas" onclick="closeMobileMenu()" class="block py-2 text-xs uppercase tracking-widest font-bold text-champagne-dark border-b border-neutral-100">Políticas e Normas</a>
+            <a href="#contato" onclick="closeMobileMenu()" class="block py-2 text-xs uppercase tracking-widest font-semibold text-charcoal">Contato</a>
+        </div>
+    </header>
+
+    <!-- ==================== 3. HERO BANNER SLIDER ==================== -->
+    <section id="inicio" class="relative bg-ivory overflow-hidden">
+        <div class="relative min-h-[450px] sm:min-h-[530px] flex items-center">
+            <!-- Slide 1 -->
+            <div class="hero-slide w-full">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-6 space-y-5 text-center lg:text-left">
+                        <span class="inline-block text-[11px] uppercase tracking-[0.26em] text-champagne-dark font-bold bg-champagne-soft px-3.5 py-1.5 rounded-full">
+                            ✨ ilumine-se • @mlprosperity
+                        </span>
+                        <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-charcoal leading-[1.08]">
+                            Semijoias com poder e elegância.
+                        </h1>
+                        <p class="text-xs sm:text-sm lg:text-base text-muted max-w-lg mx-auto lg:mx-0 leading-relaxed">
+                            Design sofisticado e acabamento premium com <strong class="text-charcoal">banho de 20 milésimos de ouro</strong>. Parcele em até 6x sem juros com envio para todo o Brasil.
+                        </p>
+                        <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
+                            <a href="#vitrine" class="w-full sm:w-auto bg-charcoal hover:bg-champagne-dark text-white text-xs uppercase tracking-[0.2em] font-semibold px-8 py-4 rounded-full transition-colors text-center">
+                                Explorar Coleção
+                            </a>
+                            <button type="button" onclick="openAuthModal('register')" class="w-full sm:w-auto bg-white hover:bg-champagne-soft text-charcoal border border-neutral-300 text-xs uppercase tracking-[0.16em] font-semibold px-7 py-4 rounded-full transition-colors text-center cursor-pointer">
+                                Cadastre-se • 10% OFF
+                            </button>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-6">
+                        <div class="relative rounded-3xl overflow-hidden shadow-xl aspect-[16/11] bg-champagne-soft">
+                            <img 
+                                src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1100&q=85" 
+                                alt="Coleção ML Prosperity Semijoias" 
+                                onerror="this.src='https://placehold.co/900x620/FAF8F5/C5A059?text=ML+Prosperity+Semijoias'"
+                                class="w-full h-full object-cover"
+                            >
+                            <div class="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full text-[11px] font-semibold text-charcoal shadow">
+                                ✨ 20 Milésimos de Ouro • Envio Nacional
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="hero-slide hidden w-full">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-6 space-y-5 text-center lg:text-left">
+                        <span class="inline-block text-[11px] uppercase tracking-[0.26em] text-champagne-dark font-bold bg-champagne-soft px-3.5 py-1.5 rounded-full">
+                            💎 Alta Cravação
+                        </span>
+                        <h2 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-charcoal leading-[1.08]">
+                            Conjuntos & Rivieras de alto brilho.
+                        </h2>
+                        <p class="text-xs sm:text-sm lg:text-base text-muted max-w-lg mx-auto lg:mx-0 leading-relaxed">
+                            Peças selecionadas com estilo e personalidade. Use o cupom <strong class="text-charcoal">ILUMINE10</strong> na sua primeira compra.
+                        </p>
+                        <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
+                            <a href="#vitrine" onclick="filterProducts('conjuntos')" class="w-full sm:w-auto bg-charcoal hover:bg-champagne-dark text-white text-xs uppercase tracking-[0.2em] font-semibold px-8 py-4 rounded-full transition-colors text-center">
+                                Ver Conjuntos
+                            </a>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-6">
+                        <div class="relative rounded-3xl overflow-hidden shadow-xl aspect-[16/11] bg-champagne-soft">
+                            <img 
+                                src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=1100&q=85" 
+                                alt="Conjuntos Cravejados ML Prosperity" 
+                                onerror="this.src='https://placehold.co/900x620/FAF8F5/C5A059?text=Conjuntos+Cravejados'"
+                                class="w-full h-full object-cover"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controles Slider -->
+        <button type="button" onclick="changeHeroSlide(-1)" aria-label="Anterior" class="hidden sm:flex absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-charcoal text-charcoal hover:text-white items-center justify-center shadow cursor-pointer">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+        </button>
+        <button type="button" onclick="changeHeroSlide(1)" aria-label="Próximo" class="hidden sm:flex absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 hover:bg-charcoal text-charcoal hover:text-white items-center justify-center shadow cursor-pointer">
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </button>
+    </section>
+
+    <!-- ==================== 4. ATALHOS CIRCULARES POR CATEGORIA ==================== -->
+    <section class="py-12 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="grid grid-cols-3 sm:grid-cols-5 gap-4 sm:gap-6 max-w-4xl mx-auto">
+            <button type="button" onclick="filterProducts('todos')" class="group flex flex-col items-center gap-2.5 cursor-pointer">
+                <div class="w-20 h-20 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-transparent group-hover:border-champagne transition-all shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&w=350&q=80" alt="Novidades" onerror="this.src='https://placehold.co/300x300/FAF8F5/C5A059?text=Novidades'" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                </div>
+                <span class="text-[11px] uppercase tracking-[0.15em] font-bold text-charcoal group-hover:text-champagne-dark">Novidades</span>
+            </button>
+
+            <button type="button" onclick="filterProducts('colares')" class="group flex flex-col items-center gap-2.5 cursor-pointer">
+                <div class="w-20 h-20 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-transparent group-hover:border-champagne transition-all shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&w=350&q=80" alt="Colares" onerror="this.src='https://placehold.co/300x300/FAF8F5/C5A059?text=Colares'" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                </div>
+                <span class="text-[11px] uppercase tracking-[0.15em] font-bold text-charcoal group-hover:text-champagne-dark">Colares</span>
+            </button>
+
+            <button type="button" onclick="filterProducts('conjuntos')" class="group flex flex-col items-center gap-2.5 cursor-pointer">
+                <div class="w-20 h-20 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-transparent group-hover:border-champagne transition-all shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=350&q=80" alt="Conjuntos" onerror="this.src='https://placehold.co/300x300/FAF8F5/C5A059?text=Conjuntos'" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                </div>
+                <span class="text-[11px] uppercase tracking-[0.15em] font-bold text-charcoal group-hover:text-champagne-dark">Conjuntos</span>
+            </button>
+
+            <button type="button" onclick="filterProducts('pulseiras')" class="group flex flex-col items-center gap-2.5 cursor-pointer">
+                <div class="w-20 h-20 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-transparent group-hover:border-champagne transition-all shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&w=350&q=80" alt="Pulseiras" onerror="this.src='https://placehold.co/300x300/FAF8F5/C5A059?text=Pulseiras'" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                </div>
+                <span class="text-[11px] uppercase tracking-[0.15em] font-bold text-charcoal group-hover:text-champagne-dark">Pulseiras</span>
+            </button>
+
+            <button type="button" onclick="filterProducts('brincos')" class="group flex flex-col items-center gap-2.5 cursor-pointer col-span-3 sm:col-span-1">
+                <div class="w-20 h-20 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-transparent group-hover:border-champagne transition-all shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&w=350&q=80" alt="Brincos" onerror="this.src='https://placehold.co/300x300/FAF8F5/C5A059?text=Brincos'" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                </div>
+                <span class="text-[11px] uppercase tracking-[0.15em] font-bold text-charcoal group-hover:text-champagne-dark">Brincos</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ==================== 5. VITRINE DE PRODUTOS ==================== -->
+    <section id="vitrine" class="py-12 sm:py-16 bg-ivory border-t border-neutral-200/70 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+                <div>
+                    <span class="text-[11px] uppercase tracking-[0.24em] text-champagne-dark font-bold">✨ Curadoria Exclusiva</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-charcoal mt-1">Coleção ML Prosperity</h2>
+                </div>
+
+                <!-- Abas de Filtro -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <button type="button" data-cat="todos" onclick="filterProducts('todos')" class="cat-pill px-4 py-2 rounded-full text-[11px] uppercase tracking-wider font-semibold bg-charcoal text-white cursor-pointer">Todos</button>
+                    <button type="button" data-cat="conjuntos" onclick="filterProducts('conjuntos')" class="cat-pill px-4 py-2 rounded-full text-[11px] uppercase tracking-wider font-semibold bg-white text-charcoal border border-neutral-200 hover:border-charcoal cursor-pointer">Conjuntos</button>
+                    <button type="button" data-cat="colares" onclick="filterProducts('colares')" class="cat-pill px-4 py-2 rounded-full text-[11px] uppercase tracking-wider font-semibold bg-white text-charcoal border border-neutral-200 hover:border-charcoal cursor-pointer">Colares</button>
+                    <button type="button" data-cat="pulseiras" onclick="filterProducts('pulseiras')" class="cat-pill px-4 py-2 rounded-full text-[11px] uppercase tracking-wider font-semibold bg-white text-charcoal border border-neutral-200 hover:border-charcoal cursor-pointer">Pulseiras</button>
+                    <button type="button" data-cat="brincos" onclick="filterProducts('brincos')" class="cat-pill px-4 py-2 rounded-full text-[11px] uppercase tracking-wider font-semibold bg-white text-charcoal border border-neutral-200 hover:border-charcoal cursor-pointer">Brincos</button>
+                </div>
+            </div>
+
+            <!-- Grid de Produtos -->
+            <div id="products-grid" class="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+                <!-- Renderizado via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 6. POLÍTICAS E NORMAS DA LOJA ==================== -->
+    <section id="politicas" class="py-16 bg-white border-t border-neutral-200 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-[11px] uppercase tracking-[0.25em] text-champagne-dark font-bold">Transparência & Excelência</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-charcoal mt-2">Políticas e Normas da Loja</h2>
+                <p class="text-xs sm:text-sm text-muted mt-2">
+                    Conheça os padrões oficiais da <strong>ML Prosperity | Semijoias</strong> e o diferencial do nosso banho de <strong>20 milésimos de ouro</strong>.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-ivory rounded-2xl p-6 sm:p-7 border border-neutral-200/80">
+                    <span class="text-[10px] uppercase tracking-widest text-champagne-dark font-bold">Regra 01</span>
+                    <h3 class="font-serif text-2xl font-bold text-charcoal mt-1 mb-2">Trocas somente por defeito de fabricação</h3>
+                    <p class="text-xs text-muted leading-relaxed">
+                        Realizamos trocas <strong>somente por defeito de fabricação</strong>. Todas as peças são conferidas individualmente antes do envio para todo o Brasil.
+                    </p>
+                </div>
+
+                <div class="bg-ivory rounded-2xl p-6 sm:p-7 border border-neutral-200/80">
+                    <span class="text-[10px] uppercase tracking-widest text-champagne-dark font-bold">Regra 02</span>
+                    <h3 class="font-serif text-2xl font-bold text-charcoal mt-1 mb-2">Não realizamos trocas de coleção antiga por nova</h3>
+                    <p class="text-xs text-muted leading-relaxed">
+                        <strong>Não realizamos trocas de coleção antiga por nova.</strong> Nossas coleções possuem tiragem exclusiva e curadoria sazonal.
+                    </p>
+                </div>
+
+                <div class="bg-charcoal text-white rounded-2xl p-6 sm:p-7 border border-champagne/40 shadow-md">
+                    <span class="text-[10px] uppercase tracking-widest text-champagne font-bold">Regra 03 • 20 Milésimos</span>
+                    <h3 class="font-serif text-2xl font-bold text-white mt-1 mb-2">Não oferecemos garantia pois possuem 20 milésimos</h3>
+                    <p class="text-xs text-white/80 leading-relaxed">
+                        <strong>Não oferecemos garantia pois as peças possuem 20 milésimos no banho de ouro</strong> — camada espessa de altíssima durabilidade.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 7. CONTATO & LOCALIZAÇÃO ==================== -->
+    <footer id="contato" class="bg-charcoal text-white pt-14 pb-10 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-10 border-b border-white/10">
+            <div class="space-y-3">
+                <span class="font-serif text-2xl font-bold tracking-wider">ML PROSPERITY</span>
+                <p class="text-xs text-champagne-light font-medium">Semijoias • ✨ ilumine-se</p>
+                <p class="text-xs text-white/70 leading-relaxed">
+                    Semijoias com poder e elegância, banho de 20 milésimos de ouro e envio para todo o Brasil.
+                </p>
+                <div class="inline-flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-full text-[11px]">
+                    <span class="text-amber-400">5.0 ★</span>
+                    <span>Avaliação no Google</span>
+                </div>
+            </div>
+
+            <div class="space-y-2.5 text-xs">
+                <h4 class="uppercase tracking-widest font-bold text-champagne-light mb-3">Navegação</h4>
+                <a href="#vitrine" onclick="filterProducts('todos')" class="block text-white/75 hover:text-white">Novidades</a>
+                <a href="#vitrine" onclick="filterProducts('conjuntos')" class="block text-white/75 hover:text-white">Conjuntos</a>
+                <a href="#vitrine" onclick="filterProducts('colares')" class="block text-white/75 hover:text-white">Colares</a>
+                <a href="#politicas" class="block text-white/75 hover:text-white">Políticas e Normas</a>
+            </div>
+
+            <div class="space-y-2.5 text-xs">
+                <h4 class="uppercase tracking-widest font-bold text-champagne-light mb-3">Atendimento & Loja</h4>
+                <p class="text-white/75">R. Mário Faustino, 530 - Recreio dos Bandeirantes, Rio de Janeiro - RJ, CEP 22795-225</p>
+                <p class="text-white/75">WhatsApp: (21) 96974-0489</p>
+                <p class="text-white/75">Instagram: @mlprosperity</p>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <h4 class="uppercase tracking-widest font-bold text-champagne-light mb-3">Minha Conta</h4>
+                <p class="text-white/70">Cadastre-se para agilizar suas compras e salvar seu endereço de entrega.</p>
+                <button type="button" onclick="openAuthModal('register')" class="bg-champagne hover:bg-champagne-dark text-charcoal font-bold uppercase tracking-wider text-[11px] px-5 py-2.5 rounded-full transition-colors cursor-pointer">
+                    Criar Conta / Entrar
+                </button>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto pt-6 text-center text-[11px] text-white/50">
+            © 2026 ML Prosperity | Semijoias — Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <!-- ==================== MODAL COMPRA RÁPIDA ==================== -->
+    <div id="quick-view-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/65 backdrop-blur-xs">
+        <div class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl relative">
+            <button type="button" onclick="closeQuickView()" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white hover:bg-charcoal text-charcoal hover:text-white flex items-center justify-center shadow cursor-pointer">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+            <div class="grid grid-cols-1 md:grid-cols-12">
+                <div class="md:col-span-5 bg-ivory aspect-square md:aspect-auto">
+                    <img id="qv-img" src="" alt="" class="w-full h-full object-cover">
+                </div>
+                <div class="md:col-span-7 p-6 sm:p-8 flex flex-col justify-between space-y-4">
+                    <div class="space-y-2.5">
+                        <span id="qv-badge" class="inline-block text-[10px] uppercase tracking-widest font-bold px-2.5 py-1 rounded bg-champagne-soft text-champagne-dark"></span>
+                        <h3 id="qv-title" class="font-serif text-2xl sm:text-3xl font-bold text-charcoal"></h3>
+                        <div>
+                            <p id="qv-old-price" class="text-xs text-muted line-through"></p>
+                            <p id="qv-price" class="text-2xl font-bold text-charcoal"></p>
+                            <p id="qv-installments" class="text-xs text-champagne-dark font-semibold"></p>
+                        </div>
+                        <p id="qv-desc" class="text-xs text-muted leading-relaxed"></p>
+                        <div class="bg-ivory p-3 rounded-xl border border-neutral-200 text-[11px]">
+                            <p><strong class="text-charcoal">Banho:</strong> 20 milésimos de ouro</p>
+                            <p id="qv-size" class="mt-0.5"></p>
+                        </div>
+                    </div>
+                    <button id="qv-add-btn" type="button" class="w-full bg-charcoal hover:bg-champagne-dark text-white text-xs uppercase tracking-[0.18em] font-bold py-4 rounded-full transition-colors cursor-pointer">
+                        + Adicionar ao Carrinho
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== GAVETA LATERAL DO CARRINHO ==================== -->
+    <div id="cart-overlay" onclick="toggleCartDrawer()" class="fixed inset-0 z-50 bg-black/55 hidden"></div>
+    <aside id="cart-drawer" class="fixed top-0 right-0 z-50 h-full w-full max-w-md bg-white shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col justify-between">
+        
+        <!-- Topo + Barra de Frete Grátis -->
+        <div class="border-b border-neutral-200">
+            <div class="p-5 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 text-champagne-dark"></i>
+                    <h3 class="font-serif text-2xl font-bold text-charcoal">Minha Sacola</h3>
+                </div>
+                <button type="button" onclick="toggleCartDrawer()" class="w-8 h-8 rounded-full hover:bg-ivory flex items-center justify-center text-charcoal cursor-pointer">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="bg-ivory px-5 py-3 border-t border-neutral-200/70">
+                <p id="free-shipping-text" class="text-[11px] font-semibold text-charcoal text-center mb-1.5">
+                    Faltam <strong>R$ 299,00</strong> para você ganhar <strong>FRETE GRÁTIS!</strong>
+                </p>
+                <div class="w-full h-2 bg-neutral-200 rounded-full overflow-hidden">
+                    <div id="free-shipping-bar" class="h-full bg-champagne transition-all duration-300" style="width: 0%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Itens -->
+        <div id="cart-items-list" class="flex-1 overflow-y-auto p-5 space-y-4 thin-scroll"></div>
+
+        <!-- Rodapé Carrinho -->
+        <div class="p-5 border-t border-neutral-200 bg-ivory space-y-3.5">
+            <div class="flex gap-2">
+                <input type="text" id="coupon-input" placeholder="Cupom (ex: ILUMINE10)" class="flex-1 px-3.5 py-2 bg-white border border-neutral-300 rounded-lg text-xs uppercase focus:outline-none focus:border-charcoal">
+                <button type="button" onclick="applyCoupon()" class="bg-charcoal hover:bg-champagne-dark text-white text-[11px] uppercase tracking-wider font-semibold px-4 py-2 rounded-lg transition-colors cursor-pointer">Aplicar</button>
+            </div>
+            <p id="coupon-feedback" class="hidden text-[11px] font-semibold"></p>
+
+            <div class="space-y-1 text-xs border-t border-neutral-200 pt-3">
+                <div class="flex justify-between text-muted">
+                    <span>Subtotal:</span>
+                    <span id="cart-subtotal">R$ 0,00</span>
+                </div>
+                <div id="cart-discount-row" class="hidden flex justify-between text-emerald-700 font-semibold">
+                    <span>Desconto (ILUMINE10):</span>
+                    <span id="cart-discount">- R$ 0,00</span>
+                </div>
+                <div class="flex justify-between text-base font-bold text-charcoal pt-1">
+                    <span>Total:</span>
+                    <span id="cart-total">R$ 0,00</span>
+                </div>
+            </div>
+
+            <!-- Botão Principal: Exige Cadastro/Login antes de Finalizar -->
+            <button type="button" onclick="startCheckoutFlow()" class="w-full flex items-center justify-center gap-2 bg-charcoal hover:bg-champagne-dark text-white text-xs uppercase tracking-[0.18em] font-bold py-4 px-5 rounded-full transition-colors shadow cursor-pointer">
+                <i data-lucide="lock" class="w-4 h-4 text-champagne-light"></i>
+                <span>Finalizar Compra</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ==================== 7. MODAL DE CADASTRO & LOGIN OBRIGATÓRIO ==================== -->
+    <div id="auth-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-xs overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl relative my-auto">
+            <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-ivory hover:bg-charcoal text-charcoal hover:text-white flex items-center justify-center cursor-pointer">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+
+            <!-- Cabeçalho Modal Auth -->
+            <div class="bg-ivory px-6 pt-7 pb-5 border-b border-neutral-200 text-center">
+                <span id="auth-context-badge" class="inline-block text-[10px] uppercase tracking-[0.2em] font-bold text-champagne-dark bg-champagne-soft px-3 py-1 rounded-full mb-2">
+                    Identificação do Cliente
+                </span>
+                <h3 class="font-serif text-3xl font-bold text-charcoal">Acesse ou Crie sua Conta</h3>
+                <p id="auth-subtitle" class="text-xs text-muted mt-1">
+                    Cadastre seus dados e endereço de entrega para continuar seu pedido com segurança.
+                </p>
+
+                <!-- Abas Criar Conta / Entrar -->
+                <div class="grid grid-cols-2 gap-2 bg-white p-1 rounded-full border border-neutral-200 mt-5 max-w-xs mx-auto">
+                    <button type="button" id="tab-register-btn" onclick="switchAuthTab('register')" class="py-2 rounded-full text-xs font-bold bg-charcoal text-white transition-colors cursor-pointer">
+                        Criar Conta
+                    </button>
+                    <button type="button" id="tab-login-btn" onclick="switchAuthTab('login')" class="py-2 rounded-full text-xs font-bold text-muted hover:text-charcoal transition-colors cursor-pointer">
+                        Já Tenho Conta
+                    </button>
+                </div>
+            </div>
+
+            <!-- Formulário Criar Conta (Com ViaCEP) -->
+            <form id="register-form" onsubmit="handleRegisterSubmit(event)" class="p-6 space-y-3.5 max-h-[68vh] overflow-y-auto thin-scroll">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-charcoal mb-1">Nome Completo *</label>
+                        <input type="text" id="reg-name" required placeholder="Ex: Maria Clara Silva" class="w-full px-3.5 py-2.5 bg-ivory border border-neutral-300 rounded-xl text-xs focus:outline-none focus:border-charcoal">
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-charcoal mb-1">E-mail *</label>
+                        <input type="email" id="reg-email" required placeholder="seuemail@exemplo.com" class="w-full px-3.5 py-2.5 bg-ivory border border-neutral-300 rounded-xl text-xs focus:outline-none focus:border-charcoal">
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-charcoal mb-1">WhatsApp *</label>
+                        <input type="tel" id="reg-whatsapp" required placeholder="(21) 99999-9999" class="w-full px-3.5 py-2.5 bg-ivory border border-neutral-300 rounded-xl text-xs focus:outline-none focus:border-charcoal">
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-charcoal mb-1">CPF *</label>
+                        <input type="text" id="reg-cpf" required placeholder="000.000.000-00" class="w-full px-3.5 py-2.5 bg-ivory border border-neutral-300 rounded-xl text-xs focus:outline-none focus:border-charcoal">
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-charcoal mb-1">Crie uma Senha *</label>
+                        <input type="password" id="reg-password" required minlength="4" placeholder="Mínimo 4 caracteres" class="w-full px-3.5 py-2.5 bg-ivory border border-neutral-300 rounded-xl text-xs focus:outline-none focus:border-charcoal">
+                    </div>
+                </div>
+
+                <!-- Endereço de Entrega com Busca Automática ViaCEP -->
+                <div class="pt-2 border-t border-neutral-200 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[11px] uppercase tracking-wider font-bold text-champagne-dark">Endereço de Entrega</span>
+                        <span id="cep-status" class="text-[10px] text-muted">Digite o CEP para preencher</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-charcoal mb-1">CEP *</label>
+                            <input type="text" id="reg-cep" required maxlength="9" onblur="fetchAddressByCEP(this.value)" oninput="autoCheckCEP(this.value)" placeholder="22795-225" class="w-full px-3.5 py-2.5 bg-ivory border border-neutral-300 rounded-xl text-xs focus:outline-none focus:border-charcoal">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-bold text-charcoal mb-1">Rua / Avenida *</label>
+                            <input type="text" id="reg-street" required placeholder="Nome da rua" class="w-full px-3.5 py-2.5 bg-ivory border border-neutral-300 rounded-xl text-xs focus:outline-none focus:border-charcoal">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-charcoal mb-1">Número *</label>
+                            <input type="text" id="reg-number" required placeholder="Ex: 530" class="w-full px-3.5 py-2.5 bg-ivory border border-neutral-300 rounded-xl text-xs focus:outline-none focus:border-charcoal">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-[11px] font-bold text-charcoal mb-1">Complemento</label>
+                            <input type="text" id="reg-comp" placeholder="Apto, Bloco, Casa..." class="w-full px-3.5 py-2.5 bg-ivory border border-neutral-300 rounded-xl text-xs focus:outline-none focus:border-charcoal">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-charcoal mb-1">Bairro *</label>
+                            <input type="text" id="reg-neighborhood" required placeholder="Bairro" class="w-full px-3.5 py-2.5 bg-ivory border border-neutral-300 rounded-xl text-xs focus:outline-none focus:border-charcoal">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-charcoal mb-1">Cidade / UF *</label>
+                            <input type="text" id="reg-city" required placeholder="Rio de Janeiro - RJ" class="w-full px-3.5 py-2.5 bg-ivory border border-neutral-300 rounded-xl text-xs focus:outline-none focus:border-charcoal">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-charcoal hover:bg-champagne-dark text-white text-xs uppercase tracking-[0.18em] font-bold py-4 rounded-full transition-colors shadow cursor-pointer mt-2">
+                    Concluir Cadastro e Continuar
+                </button>
+            </form>
+
+            <!-- Formulário Entrar (Login) -->
+            <form id="login-form" onsubmit="handleLoginSubmit(event)" class="hidden p-6 space-y-4">
+                <div>
+                    <label class="block text-[11px] font-bold text-charcoal mb-1">E-mail cadastrado *</label>
+                    <input type="email" id="login-email" required placeholder="seuemail@exemplo.com" class="w-full px-3.5 py-3 bg-ivory border border-neutral-300 rounded-xl text-xs focus:outline-none focus:border-charcoal">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-charcoal mb-1">Senha *</label>
+                    <input type="password" id="login-password" required placeholder="Digite sua senha" class="w-full px-3.5 py-3 bg-ivory border border-neutral-300 rounded-xl text-xs focus:outline-none focus:border-charcoal">
+                </div>
+                <p id="login-error" class="hidden text-xs text-rose-600 font-semibold"></p>
+                <button type="submit" class="w-full bg-charcoal hover:bg-champagne-dark text-white text-xs uppercase tracking-[0.18em] font-bold py-4 rounded-full transition-colors shadow cursor-pointer">
+                    Entrar na Minha Conta
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL MINHA CONTA (QUANDO JÁ LOGADA) ==================== -->
+    <div id="profile-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/65 backdrop-blur-xs">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative space-y-5">
+            <button type="button" onclick="closeProfileModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-ivory flex items-center justify-center text-charcoal cursor-pointer">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-champagne-soft text-champagne-dark flex items-center justify-center font-serif text-2xl font-bold">
+                    <i data-lucide="user-check" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <span class="text-[10px] uppercase tracking-widest text-champagne-dark font-bold">Cliente Cadastrada</span>
+                    <h3 id="profile-name" class="font-serif text-2xl font-bold text-charcoal"></h3>
+                </div>
+            </div>
+
+            <div id="profile-details" class="bg-ivory p-4 rounded-2xl border border-neutral-200 text-xs space-y-1.5 text-muted"></div>
+
+            <div class="flex gap-3">
+                <button type="button" onclick="closeProfileModal(); toggleCartDrawer()" class="flex-1 bg-charcoal hover:bg-champagne-dark text-white text-xs uppercase tracking-wider font-bold py-3.5 rounded-full transition-colors cursor-pointer">
+                    Ir para Sacola
+                </button>
+                <button type="button" onclick="logoutUser()" class="px-5 bg-ivory hover:bg-rose-50 text-rose-600 border border-neutral-200 text-xs font-bold py-3.5 rounded-full transition-colors cursor-pointer">
+                    Sair
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL RESUMO FINAL DO CHECKOUT (APÓS CADASTRO/LOGIN) ==================== -->
+    <div id="final-checkout-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-xs overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-xl w-full overflow-hidden shadow-2xl relative my-auto">
+            <button type="button" onclick="closeFinalCheckoutModal()" class="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-ivory hover:bg-charcoal text-charcoal hover:text-white flex items-center justify-center cursor-pointer">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+
+            <div class="bg-ivory px-6 py-5 border-b border-neutral-200">
+                <span class="text-[10px] uppercase tracking-[0.22em] font-bold text-champagne-dark">Etapa Final • Pedido Identificado</span>
+                <h3 class="font-serif text-3xl font-bold text-charcoal mt-0.5">Resumo e Pagamento</h3>
+            </div>
+
+            <div id="checkout-summary-body" class="p-6 space-y-5 max-h-[75vh] overflow-y-auto thin-scroll">
+                <!-- Dados da Cliente + Endereço -->
+                <div class="bg-ivory p-4 rounded-2xl border border-neutral-200 space-y-1.5 text-xs">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-charcoal uppercase tracking-wider text-[10px]">Entrega para:</span>
+                        <button type="button" onclick="closeFinalCheckoutModal(); openAuthModal('register')" class="text-[11px] font-bold text-champagne-dark hover:underline cursor-pointer">Alterar cadastro</button>
+                    </div>
+                    <p id="co-customer-name" class="font-bold text-charcoal text-sm"></p>
+                    <p id="co-customer-contact" class="text-muted"></p>
+                    <p id="co-customer-address" class="text-charcoal pt-1 font-medium"></p>
+                </div>
+
+                <!-- Itens do Pedido -->
+                <div>
+                    <h4 class="text-[11px] uppercase tracking-wider font-bold text-charcoal mb-2">Peças Selecionadas</h4>
+                    <div id="co-items-list" class="space-y-2 text-xs"></div>
+                </div>
+
+                <!-- Escolha da Forma de Pagamento -->
+                <div>
+                    <h4 class="text-[11px] uppercase tracking-wider font-bold text-charcoal mb-2">Forma de Pagamento</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="payment-method" value="Pix (5% de desconto)" checked onchange="updateCheckoutTotalDisplay()" class="peer sr-only">
+                            <div class="p-3 rounded-xl border border-neutral-300 peer-checked:border-charcoal peer-checked:bg-ivory text-center transition-all">
+                                <p class="text-xs font-bold text-charcoal">Pix</p>
+                                <p class="text-[10px] text-emerald-700 font-semibold">5% OFF Extra</p>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="payment-method" value="Cartão de Crédito (até 6x sem juros)" onchange="updateCheckoutTotalDisplay()" class="peer sr-only">
+                            <div class="p-3 rounded-xl border border-neutral-300 peer-checked:border-charcoal peer-checked:bg-ivory text-center transition-all">
+                                <p class="text-xs font-bold text-charcoal">Cartão</p>
+                                <p class="text-[10px] text-champagne-dark font-semibold">Até 6x sem juros</p>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="payment-method" value="Link de Pagamento Online" onchange="updateCheckoutTotalDisplay()" class="peer sr-only">
+                            <div class="p-3 rounded-xl border border-neutral-300 peer-checked:border-charcoal peer-checked:bg-ivory text-center transition-all">
+                                <p class="text-xs font-bold text-charcoal">Link Online</p>
+                                <p class="text-[10px] text-muted font-semibold">Checkout Seguro</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Total Final -->
+                <div class="bg-charcoal text-white p-4 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <p class="text-[11px] text-white/70">Total Final do Pedido</p>
+                        <p id="co-final-total" class="text-xl font-bold text-champagne-light">R$ 0,00</p>
+                    </div>
+                    <span id="co-shipping-tag" class="text-[10px] uppercase tracking-wider bg-white/10 px-3 py-1 rounded-full font-semibold">
+                        Envio Brasil
+                    </span>
+                </div>
+
+                <!-- Botões de Confirmação -->
+                <div class="space-y-2.5">
+                    <button type="button" onclick="confirmAndSendOrder()" class="w-full flex items-center justify-center gap-2 bg-charcoal hover:bg-champagne-dark text-white text-xs uppercase tracking-[0.16em] font-bold py-4 rounded-full transition-colors shadow-lg cursor-pointer">
+                        <span>Confirmar e Enviar Pedido no WhatsApp</span>
+                    </button>
+                    <button type="button" onclick="confirmOrderOnScreen()" class="w-full bg-ivory hover:bg-champagne-soft text-charcoal border border-neutral-300 text-[11px] uppercase tracking-wider font-bold py-3 rounded-full transition-colors cursor-pointer">
+                        Gerar Protocolo de Pedido na Tela
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tela de Confirmação Instantânea do Pedido -->
+            <div id="order-confirmed-screen" class="hidden p-8 text-center space-y-4">
+                <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
+                    <i data-lucide="check-circle-2" class="w-9 h-9"></i>
+                </div>
+                <span id="order-protocol-badge" class="inline-block bg-ivory border border-champagne px-4 py-1 rounded-full font-mono text-xs font-bold text-charcoal">
+                    Pedido #MLP-2026
+                </span>
+                <h4 class="font-serif text-3xl font-bold text-charcoal">Pedido Registrado com Sucesso!</h4>
+                <p class="text-xs text-muted max-w-md mx-auto leading-relaxed">
+                    Obrigada pela preferência! Seus dados cadastrais e endereço de entrega já estão vinculados ao pedido. Clique abaixo para enviar o comprovante para nossa equipe finalizar o envio.
+                </p>
+                <div class="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
+                    <button type="button" onclick="confirmAndSendOrder()" class="bg-charcoal hover:bg-champagne-dark text-white text-xs uppercase tracking-wider font-bold px-6 py-3.5 rounded-full transition-colors cursor-pointer">
+                        Enviar Comprovante no WhatsApp
+                    </button>
+                    <button type="button" onclick="finishAndClearCart()" class="bg-ivory text-charcoal border border-neutral-300 text-xs font-bold px-6 py-3.5 rounded-full cursor-pointer">
+                        Voltar à Loja
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TOAST NOTIFICATION ==================== -->
+    <div id="toast" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-charcoal text-white text-xs font-medium px-5 py-3 rounded-full shadow-xl opacity-0 pointer-events-none transition-opacity duration-300">
+        <span id="toast-msg">Ação concluída!</span>
+    </div>
+
+    <!-- ==================== BOTÃO FLUTUANTE WHATSAPP ==================== -->
+    <a href="https://wa.me/5521969740489?text=Ol%C3%A1%2C%20ML%20Prosperity!%20%E2%9C%A8%20Gostaria%20de%20atendimento." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="fixed bottom-5 right-5 z-40 w-13 h-13 sm:w-14 sm:h-14 bg-whatsapp hover:bg-[#20bd5a] text-white rounded-full shadow-xl flex items-center justify-center transition-transform hover:scale-105">
+        <i data-lucide="message-circle" class="w-7 h-7"></i>
+    </a>
+
+    <!-- ==================== JAVASCRIPT COMPLETO ==================== -->
+    <script>
+        const WHATSAPP_NUMBER = '5521969740489';
+        const FREE_SHIPPING_GOAL = 299.00;
+        const STORAGE_USER_KEY = 'ml_prosperity_customer_v1';
+
+        const products = [
+            {
+                id: 1,
+                name: 'Conjunto Corações Cravejados Dourado',
+                category: 'conjuntos',
+                badge: '-21% OFF',
+                oldPrice: 289.90,
+                price: 229.90,
+                installments: 6,
+                size: 'Colar 45cm + 5cm extensor | Brincos 1,2cm',
+                desc: 'Colar e brincos de coração totalmente cravejados em microzircônias cristal com banho de 20 milésimos de ouro.',
+                image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=85'
+            },
+            {
+                id: 2,
+                name: 'Colar Riviera Safira & Cristal',
+                category: 'colares',
+                badge: 'NOVO',
+                oldPrice: 259.90,
+                price: 199.90,
+                installments: 6,
+                size: 'Riviera 42cm + 5cm extensor',
+                desc: 'Cravação em zircônias azul safira e cristal lapidadas com fecho joia e banho de 20 milésimos de ouro.',
+                image: 'https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&w=800&q=85'
+            },
+            {
+                id: 3,
+                name: 'Bracelete & Colar Bambu Luxo',
+                category: 'conjuntos',
+                badge: '-22% OFF',
+                oldPrice: 319.90,
+                price: 249.90,
+                installments: 6,
+                size: 'Bracelete 6,2cm diâmetro | Colar 45cm',
+                desc: 'Colar e bracelete articulado em design bambu polido com detalhe central cravejado em zircônias.',
+                image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=800&q=85'
+            },
+            {
+                id: 4,
+                name: 'Colar Elo Português Premium',
+                category: 'pulseiras',
+                badge: '-20% OFF',
+                oldPrice: 199.90,
+                price: 159.90,
+                installments: 5,
+                size: '19cm ajustável com fecho mosquetão',
+                desc: 'Elos portugueses alongados de presença marcante e brilho espelhado em 20 milésimos de ouro.',
+                image: 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&w=800&q=85'
+            },
+            {
+                id: 5,
+                name: 'Trio Argolas Cravejadas',
+                category: 'brincos',
+                badge: '-25% OFF',
+                oldPrice: 159.90,
+                price: 119.90,
+                installments: 4,
+                size: 'P (1,4cm), M (1,9cm) e G (2,4cm)',
+                desc: 'Trio de argolas click totalmente cravejadas em zircônias cristal com acabamento em 20 milésimos.',
+                image: 'https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&w=800&q=85'
+            },
+            {
+                id: 6,
+                name: 'Choker Riviera Zircônias Cristal',
+                category: 'colares',
+                badge: 'BEST-SELLER',
+                oldPrice: 239.90,
+                price: 189.90,
+                installments: 6,
+                size: '40cm + 5cm extensor',
+                desc: 'Clássica choker riviera contínua com brilho intenso e banho de 20 milésimos de ouro.',
+                image: 'https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&w=800&q=85'
+            }
+        ];
+
+        let cart = [];
+        let wishlist = [];
+        let currentCategory = 'todos';
+        let searchQuery = '';
+        let onlyWishlist = false;
+        let discountPercent = 0;
+        let currentUser = null;
+        let pendingCheckoutAfterAuth = false;
+
+        function formatBRL(val) {
+            return val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        // Carrega usuário salvo no localStorage
+        function loadSavedUser() {
+            try {
+                const raw = localStorage.getItem(STORAGE_USER_KEY);
+                if (raw) {
+                    currentUser = JSON.parse(raw);
+                }
+            } catch (e) {
+                currentUser = null;
+            }
+            updateUserHeaderUI();
+        }
+
+        function updateUserHeaderUI() {
+            const greeting = document.getElementById('header-user-greeting');
+            const label = document.getElementById('header-user-label');
+            const mobileText = document.getElementById('mobile-user-text');
+
+            if (currentUser && currentUser.name) {
+                const firstName = currentUser.name.trim().split(' ')[0];
+                greeting.textContent = `Olá, ${firstName}!`;
+                label.textContent = 'Minha Conta';
+                if (mobileText) mobileText.textContent = `Olá, ${firstName} (Minha Conta)`;
+            } else {
+                greeting.textContent = 'Bem-vinda!';
+                label.textContent = 'Conecte-se';
+                if (mobileText) mobileText.textContent = 'Conecte-se ou Crie sua Conta';
+            }
+        }
+
+        function handleAccountButtonClick() {
+            if (currentUser) {
+                openProfileModal();
+            } else {
+                pendingCheckoutAfterAuth = false;
+                openAuthModal('register');
+            }
+        }
+
+        // Top Bar Rotativa
+        const announcements = [
+            'ENVIO PARA TODO O BRASIL ✈️ • BANHO DE 20 MILÉSIMOS DE OURO ✨',
+            '10% OFF NA 1ª COMPRA COM CUPOM ILUMINE10 💎',
+            'PARCELE EM ATÉ 6X SEM JUROS • FRETE GRÁTIS ACIMA DE R$ 299,00 ✨'
+        ];
+        let announcementIdx = 0;
+        function nextAnnouncement() {
+            announcementIdx = (announcementIdx + 1) % announcements.length;
+            document.getElementById('announcement-text').textContent = announcements[announcementIdx];
+        }
+        function prevAnnouncement() {
+            announcementIdx = (announcementIdx - 1 + announcements.length) % announcements.length;
+            document.getElementById('announcement-text').textContent = announcements[announcementIdx];
+        }
+        setInterval(nextAnnouncement, 5000);
+
+        // Hero Slider
+        let heroIdx = 0;
+        function changeHeroSlide(dir) {
+            const slides = document.querySelectorAll('.hero-slide');
+            slides[heroIdx].classList.add('hidden');
+            heroIdx = (heroIdx + dir + slides.length) % slides.length;
+            slides[heroIdx].classList.remove('hidden');
+        }
+
+        // Vitrine
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            const filtered = products.filter(p => {
+                const matchCat = currentCategory === 'todos' || p.category === currentCategory;
+                const matchSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.desc.toLowerCase().includes(searchQuery.toLowerCase());
+                const matchWish = !onlyWishlist || wishlist.includes(p.id);
+                return matchCat && matchSearch && matchWish;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 space-y-3">
+                        <p class="font-serif text-2xl font-bold text-charcoal">Nenhuma peça encontrada</p>
+                        <button type="button" onclick="resetFilters()" class="bg-charcoal text-white text-xs uppercase tracking-wider font-semibold px-6 py-3 rounded-full cursor-pointer">Ver toda a coleção</button>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(p => {
+                const isFav = wishlist.includes(p.id);
+                const installmentVal = formatBRL(p.price / p.installments);
+
+                const card = document.createElement('article');
+                card.className = 'product-card bg-white rounded-2xl overflow-hidden border border-neutral-200/80 hover:border-champagne transition-all flex flex-col justify-between';
+
+                card.innerHTML = `
+                    <div>
+                        <div class="relative aspect-[4/5] overflow-hidden bg-ivory cursor-pointer" onclick="openQuickView(${p.id})">
+                            <img src="${p.image}" alt="${p.name}" onerror="this.src='https://placehold.co/600x750/FAF8F5/C5A059?text=ML+Prosperity'" class="product-img w-full h-full object-cover transition-transform duration-500">
+                            <span class="absolute top-3 left-3 bg-charcoal text-white text-[9px] sm:text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded">
+                                ${p.badge}
+                            </span>
+                            <button type="button" onclick="event.stopPropagation(); toggleWishlist(${p.id})" aria-label="Favoritar" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-charcoal flex items-center justify-center shadow-sm cursor-pointer">
+                                <span class="text-sm ${isFav ? 'text-rose-500' : 'text-charcoal'}">${isFav ? '♥' : '♡'}</span>
+                            </button>
+                            <div class="quick-actions hidden sm:block absolute inset-x-3 bottom-3 opacity-0 translate-y-2 transition-all duration-300">
+                                <button type="button" onclick="event.stopPropagation(); openQuickView(${p.id})" class="w-full bg-white/95 hover:bg-charcoal text-charcoal hover:text-white text-[10px] uppercase tracking-widest font-bold py-2.5 rounded-full shadow cursor-pointer">
+                                    Compra Rápida
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 sm:p-4 space-y-1.5">
+                            <p class="text-[9px] sm:text-[10px] uppercase tracking-widest text-champagne-dark font-bold">20 Milésimos de Ouro</p>
+                            <h3 onclick="openQuickView(${p.id})" class="font-serif text-base sm:text-lg font-bold text-charcoal leading-snug cursor-pointer hover:text-champagne-dark line-clamp-2">
+                                ${p.name}
+                            </h3>
+                            <div class="pt-1">
+                                <p class="text-[11px] text-muted line-through">De: ${formatBRL(p.oldPrice)}</p>
+                                <p class="text-sm sm:text-base font-bold text-charcoal">Por: ${formatBRL(p.price)}</p>
+                                <p class="text-[10px] sm:text-[11px] text-champagne-dark font-semibold">
+                                    Ou em ${p.installments}x de ${installmentVal} sem juros
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="px-3.5 sm:px-4 pb-4">
+                        <button type="button" onclick="addToCart(${p.id})" class="w-full bg-charcoal hover:bg-champagne-dark text-white text-[10px] sm:text-[11px] uppercase tracking-wider font-bold py-3 rounded-full transition-colors cursor-pointer">
+                            + Adicionar ao Carrinho
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterProducts(cat) {
+            currentCategory = cat;
+            onlyWishlist = false;
+            document.querySelectorAll('.cat-pill').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.className = 'cat-pill px-4 py-2 rounded-full text-[11px] uppercase tracking-wider font-semibold bg-charcoal text-white cursor-pointer';
+                } else {
+                    btn.className = 'cat-pill px-4 py-2 rounded-full text-[11px] uppercase tracking-wider font-semibold bg-white text-charcoal border border-neutral-200 hover:border-charcoal cursor-pointer';
+                }
+            });
+            renderProducts();
+        }
+
+        function resetFilters() {
+            searchQuery = '';
+            onlyWishlist = false;
+            document.getElementById('desktop-search-input').value = '';
+            document.getElementById('mobile-search-input').value = '';
+            filterProducts('todos');
+        }
+
+        function handleSearch(val) {
+            searchQuery = val;
+            renderProducts();
+            if (val.trim().length > 1) {
+                document.getElementById('vitrine').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function toggleMobileSearch() {
+            document.getElementById('mobile-search-panel').classList.toggle('hidden');
+        }
+
+        // Favoritos
+        function toggleWishlist(id) {
+            const idx = wishlist.indexOf(id);
+            if (idx === -1) {
+                wishlist.push(id);
+                showToast('Peça salva nos favoritos ♥');
+            } else {
+                wishlist.splice(idx, 1);
+            }
+            const badge = document.getElementById('wishlist-badge');
+            badge.textContent = wishlist.length;
+            badge.classList.toggle('hidden', wishlist.length === 0);
+            renderProducts();
+        }
+
+        function toggleWishlistFilter() {
+            onlyWishlist = !onlyWishlist;
+            renderProducts();
+            document.getElementById('vitrine').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Carrinho
+        function addToCart(id) {
+            const prod = products.find(p => p.id === id);
+            if (!prod) return;
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...prod, qty: 1 });
+            }
+            updateCartUI();
+            showToast(`"${prod.name}" adicionada à sacola!`);
+        }
+
+        function changeQty(id, delta) {
+            const idx = cart.findIndex(item => item.id === id);
+            if (idx === -1) return;
+            cart[idx].qty += delta;
+            if (cart[idx].qty <= 0) cart.splice(idx, 1);
+            updateCartUI();
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById('coupon-input').value.trim().toUpperCase();
+            const feedback = document.getElementById('coupon-feedback');
+            feedback.classList.remove('hidden');
+
+            if (code === 'ILUMINE10') {
+                discountPercent = 0.10;
+                feedback.textContent = '✨ Cupom ILUMINE10 aplicado (10% OFF)!';
+                feedback.className = 'text-[11px] font-semibold text-emerald-700';
+            } else {
+                discountPercent = 0;
+                feedback.textContent = 'Cupom inválido. Tente ILUMINE10 ✨';
+                feedback.className = 'text-[11px] font-semibold text-rose-600';
+            }
+            updateCartUI();
+        }
+
+        function getCartTotals() {
+            const subtotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            const discountVal = subtotal * discountPercent;
+            const total = subtotal - discountVal;
+            return { subtotal, discountVal, total };
+        }
+
+        function updateCartUI() {
+            const totalQty = cart.reduce((sum, i) => sum + i.qty, 0);
+            document.getElementById('cart-badge').textContent = totalQty;
+
+            const { subtotal, discountVal, total } = getCartTotals();
+
+            const freeShipText = document.getElementById('free-shipping-text');
+            const freeShipBar = document.getElementById('free-shipping-bar');
+            freeShipBar.style.width = `${Math.min(100, (subtotal / FREE_SHIPPING_GOAL) * 100)}%`;
+
+            if (subtotal >= FREE_SHIPPING_GOAL) {
+                freeShipText.innerHTML = '🎉 Parabéns! Você ganhou <strong>FRETE GRÁTIS!</strong>';
+            } else {
+                freeShipText.innerHTML = `Faltam <strong>${formatBRL(FREE_SHIPPING_GOAL - subtotal)}</strong> para você ganhar <strong>FRETE GRÁTIS!</strong>`;
+            }
+
+            document.getElementById('cart-subtotal').textContent = formatBRL(subtotal);
+            const discountRow = document.getElementById('cart-discount-row');
+            if (discountPercent > 0 && subtotal > 0) {
+                discountRow.classList.remove('hidden');
+                document.getElementById('cart-discount').textContent = `- ${formatBRL(discountVal)}`;
+            } else {
+                discountRow.classList.add('hidden');
+            }
+            document.getElementById('cart-total').textContent = formatBRL(total);
+
+            const listEl = document.getElementById('cart-items-list');
+            if (cart.length === 0) {
+                listEl.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center py-12 space-y-2">
+                        <p class="font-serif text-xl font-bold text-charcoal">Sua sacola está vazia</p>
+                        <p class="text-xs text-muted max-w-xs">Adicione suas semijoias favoritas na vitrine para finalizar seu pedido.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            listEl.innerHTML = cart.map(item => `
+                <div class="flex items-center gap-3 bg-ivory p-3 rounded-2xl border border-neutral-200/80">
+                    <img src="${item.image}" alt="${item.name}" onerror="this.src='https://placehold.co/100x100/FAF8F5/C5A059?text=ML'" class="w-16 h-16 rounded-xl object-cover shrink-0">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-serif text-sm font-bold text-charcoal truncate">${item.name}</h4>
+                        <p class="text-xs font-bold text-champagne-dark mt-0.5">${formatBRL(item.price)}</p>
+                        <div class="flex items-center gap-2 mt-1.5">
+                            <button type="button" onclick="changeQty(${item.id}, -1)" class="w-6 h-6 rounded-full bg-white border border-neutral-300 text-xs font-bold cursor-pointer">-</button>
+                            <span class="text-xs font-bold px-1">${item.qty}</span>
+                            <button type="button" onclick="changeQty(${item.id}, 1)" class="w-6 h-6 rounded-full bg-white border border-neutral-300 text-xs font-bold cursor-pointer">+</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleCartDrawer(forceClose = false) {
+            const drawer = document.getElementById('cart-drawer');
+            const overlay = document.getElementById('cart-overlay');
+            if (forceClose) {
+                drawer.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+                return;
+            }
+            const closed = drawer.classList.contains('translate-x-full');
+            drawer.classList.toggle('translate-x-full', !closed);
+            overlay.classList.toggle('hidden', !closed);
+        }
+
+        // ==================== FLUXO DE CADASTRO OBRIGATÓRIO ANTES DE FINALIZAR ====================
+        function startCheckoutFlow() {
+            if (cart.length === 0) {
+                showToast('Adicione pelo menos uma peça à sacola primeiro!');
+                return;
+            }
+
+            toggleCartDrawer(true);
+
+            // Se ainda não estiver cadastrada/logada, abre o modal de cadastro obrigatório!
+            if (!currentUser) {
+                pendingCheckoutAfterAuth = true;
+                openAuthModal('register', true);
+                return;
+            }
+
+            // Se já estiver logada, vai direto para o Resumo Final do Pedido
+            openFinalCheckoutModal();
+        }
+
+        function openAuthModal(tab = 'register', fromCheckout = false) {
+            const modal = document.getElementById('auth-modal');
+            const badge = document.getElementById('auth-context-badge');
+            const subtitle = document.getElementById('auth-subtitle');
+
+            if (fromCheckout) {
+                badge.textContent = 'Etapa Obrigatória • Identificação';
+                subtitle.textContent = 'Para finalizar sua compra, crie seu cadastro rápido com endereço de entrega ou entre na sua conta.';
+            } else {
+                badge.textContent = 'Área do Cliente ML Prosperity';
+                subtitle.textContent = 'Cadastre-se para salvar seu endereço e agilizar seus pedidos.';
+            }
+
+            // Se já houver dados salvos (para edição), pré-preenche
+            if (currentUser) {
+                document.getElementById('reg-name').value = currentUser.name || '';
+                document.getElementById('reg-email').value = currentUser.email || '';
+                document.getElementById('reg-whatsapp').value = currentUser.whatsapp || '';
+                document.getElementById('reg-cpf').value = currentUser.cpf || '';
+                document.getElementById('reg-cep').value = currentUser.cep || '';
+                document.getElementById('reg-street').value = currentUser.street || '';
+                document.getElementById('reg-number').value = currentUser.number || '';
+                document.getElementById('reg-comp').value = currentUser.comp || '';
+                document.getElementById('reg-neighborhood').value = currentUser.neighborhood || '';
+                document.getElementById('reg-city').value = currentUser.city || '';
+            }
+
+            switchAuthTab(tab);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeAuthModal() {
+            const modal = document.getElementById('auth-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function switchAuthTab(tab) {
+            const regForm = document.getElementById('register-form');
+            const loginForm = document.getElementById('login-form');
+            const regBtn = document.getElementById('tab-register-btn');
+            const loginBtn = document.getElementById('tab-login-btn');
+
+            if (tab === 'register') {
+                regForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                regBtn.className = 'py-2 rounded-full text-xs font-bold bg-charcoal text-white transition-colors cursor-pointer';
+                loginBtn.className = 'py-2 rounded-full text-xs font-bold text-muted hover:text-charcoal transition-colors cursor-pointer';
+            } else {
+                regForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                loginBtn.className = 'py-2 rounded-full text-xs font-bold bg-charcoal text-white transition-colors cursor-pointer';
+                regBtn.className = 'py-2 rounded-full text-xs font-bold text-muted hover:text-charcoal transition-colors cursor-pointer';
+            }
+        }
+
+        // Busca Automática de Endereço pelo CEP (ViaCEP)
+        function autoCheckCEP(val) {
+            const clean = val.replace(/\D/g, '');
+            if (clean.length === 8) {
+                fetchAddressByCEP(clean);
+            }
+        }
+
+        async function fetchAddressByCEP(cepInput) {
+            const clean = cepInput.replace(/\D/g, '');
+            const statusEl = document.getElementById('cep-status');
+            if (clean.length !== 8) return;
+
+            statusEl.textContent = 'Buscando endereço...';
+            try {
+                const res = await fetch(`https://viacep.com.br/ws/${clean}/json/`);
+                const data = await res.json();
+                if (!data.erro) {
+                    document.getElementById('reg-street').value = data.logradouro || '';
+                    document.getElementById('reg-neighborhood').value = data.bairro || '';
+                    document.getElementById('reg-city').value = `${data.localidade} - ${data.uf}`;
+                    statusEl.textContent = '✓ Endereço encontrado';
+                    document.getElementById('reg-number').focus();
+                } else {
+                    statusEl.textContent = 'CEP não encontrado, preencha manualmente';
+                }
+            } catch (err) {
+                statusEl.textContent = 'Preencha o endereço manualmente';
+            }
+        }
+
+        // Salvar Cadastro
+        function handleRegisterSubmit(e) {
+            e.preventDefault();
+            const userObj = {
+                name: document.getElementById('reg-name').value.trim(),
+                email: document.getElementById('reg-email').value.trim(),
+                whatsapp: document.getElementById('reg-whatsapp').value.trim(),
+                cpf: document.getElementById('reg-cpf').value.trim(),
+                password: document.getElementById('reg-password').value,
+                cep: document.getElementById('reg-cep').value.trim(),
+                street: document.getElementById('reg-street').value.trim(),
+                number: document.getElementById('reg-number').value.trim(),
+                comp: document.getElementById('reg-comp').value.trim(),
+                neighborhood: document.getElementById('reg-neighborhood').value.trim(),
+                city: document.getElementById('reg-city').value.trim()
+            };
+
+            currentUser = userObj;
+            localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(userObj));
+            updateUserHeaderUI();
+            closeAuthModal();
+            showToast(`Cadastro realizado com sucesso, ${userObj.name.split(' ')[0]}! ✨`);
+
+            if (pendingCheckoutAfterAuth && cart.length > 0) {
+                pendingCheckoutAfterAuth = false;
+                openFinalCheckoutModal();
+            }
+        }
+
+        // Login
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim().toLowerCase();
+            const pass = document.getElementById('login-password').value;
+            const errEl = document.getElementById('login-error');
+
+            const raw = localStorage.getItem(STORAGE_USER_KEY);
+            if (!raw) {
+                errEl.textContent = 'Nenhuma conta encontrada neste navegador. Clique em "Criar Conta" acima.';
+                errEl.classList.remove('hidden');
+                return;
+            }
+
+            const saved = JSON.parse(raw);
+            if (saved.email.toLowerCase() === email && saved.password === pass) {
+                errEl.classList.add('hidden');
+                currentUser = saved;
+                updateUserHeaderUI();
+                closeAuthModal();
+                showToast(`Bem-vinda de volta, ${saved.name.split(' ')[0]}!`);
+
+                if (pendingCheckoutAfterAuth && cart.length > 0) {
+                    pendingCheckoutAfterAuth = false;
+                    openFinalCheckoutModal();
+                }
+            } else {
+                errEl.textContent = 'E-mail ou senha incorretos.';
+                errEl.classList.remove('hidden');
+            }
+        }
+
+        // Perfil Modal
+        function openProfileModal() {
+            if (!currentUser) return;
+            document.getElementById('profile-name').textContent = currentUser.name;
+            document.getElementById('profile-details').innerHTML = `
+                <p><strong class="text-charcoal">E-mail:</strong> ${currentUser.email}</p>
+                <p><strong class="text-charcoal">WhatsApp:</strong> ${currentUser.whatsapp}</p>
+                <p><strong class="text-charcoal">CPF:</strong> ${currentUser.cpf}</p>
+                <p><strong class="text-charcoal">Endereço:</strong> ${currentUser.street}, ${currentUser.number} ${currentUser.comp ? '- ' + currentUser.comp : ''} — ${currentUser.neighborhood}, ${currentUser.city} (CEP ${currentUser.cep})</p>
+            `;
+            const modal = document.getElementById('profile-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeProfileModal() {
+            const modal = document.getElementById('profile-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function logoutUser() {
+            currentUser = null;
+            updateUserHeaderUI();
+            closeProfileModal();
+            showToast('Você saiu da sua conta.');
+        }
+
+        // ==================== MODAL FINAL DO CHECKOUT ====================
+        function openFinalCheckoutModal() {
+            if (!currentUser || cart.length === 0) return;
+
+            document.getElementById('checkout-summary-body').classList.remove('hidden');
+            document.getElementById('order-confirmed-screen').classList.add('hidden');
+
+            document.getElementById('co-customer-name').textContent = `${currentUser.name} (CPF: ${currentUser.cpf})`;
+            document.getElementById('co-customer-contact').textContent = `${currentUser.email} • WhatsApp: ${currentUser.whatsapp}`;
+            document.getElementById('co-customer-address').textContent = `${currentUser.street}, ${currentUser.number}${currentUser.comp ? ' - ' + currentUser.comp : ''} • ${currentUser.neighborhood} • ${currentUser.city} — CEP: ${currentUser.cep}`;
+
+            document.getElementById('co-items-list').innerHTML = cart.map(item => `
+                <div class="flex justify-between items-center py-1.5 border-b border-neutral-100">
+                    <span><strong>${item.qty}x</strong> ${item.name}</span>
+                    <span class="font-bold text-charcoal">${formatBRL(item.price * item.qty)}</span>
+                </div>
+            `).join('');
+
+            updateCheckoutTotalDisplay();
+
+            const modal = document.getElementById('final-checkout-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeFinalCheckoutModal() {
+            const modal = document.getElementById('final-checkout-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function updateCheckoutTotalDisplay() {
+            const { subtotal, total } = getCartTotals();
+            const method = document.querySelector('input[name="payment-method"]:checked')?.value || '';
+            const finalVal = method.includes('Pix') ? total * 0.95 : total;
+
+            document.getElementById('co-final-total').textContent = formatBRL(finalVal);
+            document.getElementById('co-shipping-tag').textContent = subtotal >= FREE_SHIPPING_GOAL ? '🎉 Frete Grátis' : 'Envio Todo Brasil';
+        }
+
+        function confirmAndSendOrder() {
+            if (!currentUser || cart.length === 0) return;
+
+            const { subtotal, total } = getCartTotals();
+            const method = document.querySelector('input[name="payment-method"]:checked')?.value || 'Pix';
+            const finalVal = method.includes('Pix') ? total * 0.95 : total;
+
+            const itemsText = cart.map((i, idx) => `${idx + 1}. *${i.name}* (${i.qty}x) — ${formatBRL(i.price * i.qty)}`).join('\n');
+            const addressText = `${currentUser.street}, ${currentUser.number}${currentUser.comp ? ' - ' + currentUser.comp : ''}, ${currentUser.neighborhood}, ${currentUser.city} (CEP ${currentUser.cep})`;
+
+            let msg = `Olá, *ML Prosperity | Semijoias*! ✨\nAcabei de me cadastrar no site e gostaria de confirmar meu pedido:\n\n`;
+            msg += `👤 *Cliente:* ${currentUser.name}\n`;
+            msg += `🪪 *CPF:* ${currentUser.cpf}\n`;
+            msg += `📱 *WhatsApp:* ${currentUser.whatsapp}\n`;
+            msg += `📍 *Endereço de Entrega:* ${addressText}\n\n`;
+            msg += `🛍️ *Itens do Pedido:*\n${itemsText}\n\n`;
+            if (discountPercent > 0) msg += `🎟️ *Cupom:* ILUMINE10 (-10%)\n`;
+            msg += `🚚 *Frete:* ${subtotal >= FREE_SHIPPING_GOAL ? 'GRÁTIS' : 'A combinar / Correios'}\n`;
+            msg += `💳 *Pagamento:* ${method}\n`;
+            msg += `💰 *Total Final:* ${formatBRL(finalVal)}`;
+
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function confirmOrderOnScreen() {
+            const code = `#MLP-${Math.floor(1000 + Math.random() * 9000)}`;
+            document.getElementById('order-protocol-badge').textContent = `Protocolo ${code}`;
+            document.getElementById('checkout-summary-body').classList.add('hidden');
+            document.getElementById('order-confirmed-screen').classList.remove('hidden');
+        }
+
+        function finishAndClearCart() {
+            cart = [];
+            discountPercent = 0;
+            updateCartUI();
+            closeFinalCheckoutModal();
+        }
+
+        // Compra Rápida
+        function openQuickView(id) {
+            const p = products.find(item => item.id === id);
+            if (!p) return;
+            document.getElementById('qv-img').src = p.image;
+            document.getElementById('qv-badge').textContent = `${p.badge} • 20 Milésimos`;
+            document.getElementById('qv-title').textContent = p.name;
+            document.getElementById('qv-old-price').textContent = `De: ${formatBRL(p.oldPrice)}`;
+            document.getElementById('qv-price').textContent = `Por: ${formatBRL(p.price)}`;
+            document.getElementById('qv-installments').textContent = `Ou em ${p.installments}x de ${formatBRL(p.price / p.installments)} sem juros`;
+            document.getElementById('qv-desc').textContent = p.desc;
+            document.getElementById('qv-size').innerHTML = `<strong class="text-charcoal">Medidas:</strong> ${p.size}`;
+
+            document.getElementById('qv-add-btn').onclick = () => {
+                addToCart(p.id);
+                closeQuickView();
+                toggleCartDrawer();
+            };
+
+            const modal = document.getElementById('quick-view-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeQuickView() {
+            const modal = document.getElementById('quick-view-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Toast & Menu Mobile
+        let toastTimer;
+        function showToast(text) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = text;
+            toast.classList.remove('opacity-0');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.add('opacity-0'), 2600);
+        }
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+        function closeMobileMenu() {
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+
+        // Inicializa
+        lucide.createIcons();
+        loadSavedUser();
+        renderProducts();
+        updateCartUI();
+    </script>
+</body>
+</html>
